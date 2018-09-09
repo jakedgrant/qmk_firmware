@@ -12,14 +12,12 @@ extern keymap_config_t keymap_config;
 #define _LOWER 1
 #define _RAISE 2
 #define _FN 3
-#define _ADJUST 4
 
 enum custom_keycodes {
   QWERTY = SAFE_RANGE,
   LOWER,
   RAISE,
-  FN,
-  ADJUST
+  FN
 };
 
 // Fillers to make layering more clear
@@ -99,24 +97,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   XXXXXXX,        KC_F11,  KC_F12,  XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
   XXXXXXX,        XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,   XXXXXXX, \
   XXXXXXX,        _______, XXXXXXX, XXXXXXX, XXXXXXX,  KC_SPC,   KC_SPC,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX \
-),
-
-/* Adjust (Lower + Raise)
- * ,------------------------------------------------------------------------------------.
- * | Reset|Qwerty|      |      |      |      |      |      |      |      |      |  Del  |
- * |------+------+------+------+------+-------------+------+------+------+------+-------|
- * |      |      |      |      |      |AGnorm|AGswap|      |      |Audoff|Aud on|       |
- * |------+------+------+------+------+------|------+------+------+------+------+-------|
- * |      |      |      |      |      |      |      |      |      |      |      |       |
- * |------+------+------+------+------+------+------+------+------+------+------+-------|
- * |      |      |      |      |      |      |      |      |      |      |      |RGB_MOD|
- * `------------------------------------------------------------------------------------'
- */
-[_ADJUST] =  LAYOUT_ortho_4x12( \
-  RESET,   QWERTY,   XXXXXXX,   XXXXXXX,   XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX, KC_DEL, \
-  XXXXXXX, XXXXXXX, XXXXXXX,   XXXXXXX,   XXXXXXX,  AG_NORM, AG_SWAP, XXXXXXX, XXXXXXX,    AU_OFF,   AU_ON,   XXXXXXX, \
-  XXXXXXX, XXXXXXX, XXXXXXX,   XXXXXXX,   XXXXXXX,  XXXXXXX, XXXXXXX, TERM_ON, TERM_OFF,  XXXXXXX,  XXXXXXX, XXXXXXX, \
-  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_MOD \
 )
 
 };
@@ -137,20 +117,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case LOWER:
       if (record->event.pressed) {
         layer_on(_LOWER);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
       } else {
         layer_off(_LOWER);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
       }
       return false;
       break;
     case RAISE:
       if (record->event.pressed) {
         layer_on(_RAISE);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
       } else {
         layer_off(_RAISE);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
       }
       return false;
       break;
@@ -159,14 +135,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           layer_on(_FN);
       } else {
           layer_off(_FN);
-      }
-      return false;
-      break;
-    case ADJUST:
-      if (record->event.pressed) {
-        layer_on(_ADJUST);
-      } else {
-        layer_off(_ADJUST);
       }
       return false;
       break;
