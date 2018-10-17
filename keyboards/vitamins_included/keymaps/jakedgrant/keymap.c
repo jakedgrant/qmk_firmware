@@ -12,12 +12,14 @@ extern keymap_config_t keymap_config;
 #define _LOWER 1
 #define _RAISE 2
 #define _FN 3
+#define _SPFN 4
 
 enum custom_keycodes {
   QWERTY = SAFE_RANGE,
   LOWER,
   RAISE,
-  FN
+  FN,
+  SPFN
 };
 
 // Fillers to make layering more clear
@@ -26,6 +28,7 @@ enum custom_keycodes {
 #define FN MO(_FN)
 #define NO_GUI MAGIC_NO_GUI
 #define UN_GUI MAGIC_UNNO_GUI
+#define SPFN MO(_SPFN)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -37,14 +40,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|------+------+------+------+------+------|
  * | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |   /  |Enter |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Esc  |  FN  |  GUI | Alt  |Lower |Space |Space |Raise | Left | Down |  Up  |Right |
+ * | Esc  |  FN  |  GUI | Alt  |Lower | SpFn |Space |Raise | Left | Down |  Up  |Right |
  * `-----------------------------------------------------------------------------------'
  */
 [_QWERTY] = LAYOUT_ortho_4x12( \
-  KC_TAB,    KC_Q,    KC_W,     KC_E,     KC_R,    KC_T,    KC_Y,    KC_U,   KC_I,     KC_O,     KC_P,     KC_BSPC, \
-  KC_LCTRL,  KC_A,    KC_S,     KC_D,     KC_F,    KC_G,    KC_H,    KC_J,   KC_K,     KC_L,     KC_SCLN,  KC_QUOT, \
-  KC_LSFT,   KC_Z,    KC_X,     KC_C,     KC_V,    KC_B,    KC_N,    KC_M,   KC_COMM,  KC_DOT,   KC_SLSH,  MT(MOD_LSFT, KC_ENT) , \
-  KC_ESC,    FN,      KC_LGUI,  KC_LALT,  LOWER,   KC_SPC,  KC_SPC,  RAISE,  KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT \
+  KC_TAB,    KC_Q,    KC_W,     KC_E,     KC_R,    KC_T,              KC_Y,    KC_U,   KC_I,     KC_O,     KC_P,     KC_BSPC, \
+  KC_LCTRL,  KC_A,    KC_S,     KC_D,     KC_F,    KC_G,              KC_H,    KC_J,   KC_K,     KC_L,     KC_SCLN,  KC_QUOT, \
+  KC_LSFT,   KC_Z,    KC_X,     KC_C,     KC_V,    KC_B,              KC_N,    KC_M,   KC_COMM,  KC_DOT,   KC_SLSH,  MT(MOD_LSFT, KC_ENT), \
+  KC_ESC,    FN,      KC_LGUI,  KC_LALT,  LOWER,   MT(SPFN, KC_SPC),  KC_SPC,  RAISE,  KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT \
 ),
 
 /* Lower
@@ -99,7 +102,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   XXXXXXX,        KC_F11,   KC_F12,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, \
   XXXXXXX,        XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, \
   XXXXXXX,        _______,  NO_GUI,   UN_GUI,   XXXXXXX,  KC_SPC,   KC_SPC,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX \
+),
+
+/* Space Function
+ * ,-----------------------------------------------------------------------------------.
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
+ * |------+------+------+------+------+-------------+------+------+------+------+------|
+ * |      |      |      |      |      |      |      | Left | Down |  Up  |Right |      |
+ * |------+------+------+------+------+------|------+------+------+------+------+------|
+ * |      |      |      |      |      |      |      | Home | PgDn | PgUp | End  |      |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |      |      |      |      |      |      |Space |      |      |      |      |      |
+ * `-----------------------------------------------------------------------------------'
+ */
+[_SPFN] = LAYOUT_ortho_4x12( \
+  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, \
+  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT,  XXXXXXX, \
+  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_HOME,  KC_DOWN,  KC_PGUP,  KC_END,   XXXXXXX, \
+  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  _______,  KC_SPC,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, \
 )
+
 };
 
 void persistent_default_layer_set(uint16_t default_layer) {
@@ -136,6 +158,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           layer_on(_FN);
       } else {
           layer_off(_FN);
+      }
+      return false;
+      break;
+    case SPFN:
+      if (record->event.pressed) {
+          layer_on(_SPFN);
+      } else {
+          layer_off(_SPFN);
       }
       return false;
       break;
