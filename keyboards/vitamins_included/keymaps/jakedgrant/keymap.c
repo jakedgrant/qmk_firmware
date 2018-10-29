@@ -40,14 +40,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|------+------+------+------+------+------|
  * | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |   /  |Enter |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Esc  |  FN  |  GUI | Alt  |Lower | SpFn |Space |Raise | Left | Down |  Up  |Right |
+ * | Esc  |  FN  |  GUI | Alt  |Lower |Space | SpFn |Raise | Left | Down |  Up  |Right |
  * `-----------------------------------------------------------------------------------'
  */
 [_QWERTY] = LAYOUT_ortho_4x12( \
-  KC_TAB,    KC_Q,    KC_W,     KC_E,     KC_R,    KC_T,              KC_Y,    KC_U,   KC_I,     KC_O,     KC_P,     KC_BSPC, \
-  KC_LCTRL,  KC_A,    KC_S,     KC_D,     KC_F,    KC_G,              KC_H,    KC_J,   KC_K,     KC_L,     KC_SCLN,  KC_QUOT, \
-  KC_LSFT,   KC_Z,    KC_X,     KC_C,     KC_V,    KC_B,              KC_N,    KC_M,   KC_COMM,  KC_DOT,   KC_SLSH,  MT(MOD_LSFT, KC_ENT), \
-  KC_ESC,    FN,      KC_LGUI,  KC_LALT,  LOWER,   MT(SPFN, KC_SPC),  KC_SPC,  RAISE,  KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT \
+  KC_TAB,    KC_Q,    KC_W,     KC_E,     KC_R,    KC_T,   KC_Y,             KC_U,   KC_I,     KC_O,     KC_P,     KC_BSPC, \
+  KC_LCTRL,  KC_A,    KC_S,     KC_D,     KC_F,    KC_G,   KC_H,             KC_J,   KC_K,     KC_L,     KC_SCLN,  KC_QUOT, \
+  KC_LSFT,   KC_Z,    KC_X,     KC_C,     KC_V,    KC_B,   KC_N,             KC_M,   KC_COMM,  KC_DOT,   KC_SLSH,  MT(MOD_LSFT, KC_ENT), \
+  KC_ESC,    FN,      KC_LGUI,  KC_LALT,  LOWER,   KC_SPC, MT(SPFN, KC_SPC), RAISE,  KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT \
 ),
 
 /* Lower
@@ -112,14 +112,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|------+------+------+------+------+------|
  * |      |      |      |      |      |      |      | Home | PgDn | PgUp | End  |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |      |Space |      |      |      |      |      |
+ * |      |      |      |      |      |Space |      |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
 [_SPFN] = LAYOUT_ortho_4x12( \
   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, \
   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT,  XXXXXXX, \
   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_HOME,  KC_DOWN,  KC_PGUP,  KC_END,   XXXXXXX, \
-  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  _______,  KC_SPC,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, \
+  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_SPC,   _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, \
 )
 
 };
